@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Icone: SVG Repo (color-palette), recolorido para a cor primaria do site (#2F6FA8). -->
-<svg fill="#2F6FA8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<!-- Icone: SVG Repo (color-palette). Azul primario no tema claro; no escuro,
+     um azul mais luminoso, porque o primario nao alcanca contraste suficiente
+     contra a barra de abas escura. -->
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<style>
+  path { fill: #2F6FA8; }
+  @media (prefers-color-scheme: dark) {
+    path { fill: #7FB3D9; }
+  }
+</style>
 <g data-name="Layer 2">
 <g data-name="color-palette">
 <rect width="24" height="24" opacity="0"/>
