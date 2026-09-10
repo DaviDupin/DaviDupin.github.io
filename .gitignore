@@ -1,0 +1,27 @@
+# Configuração local do editor
+.claude/
+
+# Arquivo de design (Claude Design canvas) — não faz parte do site publicado
+*.dc.html
+
+# Sistema
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# uploads/: versiona apenas os arquivos que o site realmente referencia.
+# O restante da pasta são rascunhos e capturas de tela que ficariam
+# publicamente acessíveis no repositório, mesmo sem link para eles.
+uploads/*
+!uploads/davi_dupin_pt_cv_2026.pdf
+!uploads/Gemini_Generated_Image_298akk298akk298a.jpg
+!uploads/Gemini_Generated_Image_298akk298akk298a.png
+!uploads/pasted-1788313166364-0.png
+!uploads/pasted-1788984092986-0.png
+!uploads/pasted-1788985212793-0.png
+!uploads/pasted-1788988171812-0.png
+!uploads/pasted-1788988480661-0.png
+!uploads/pasted-1788988543270-0.png
+!uploads/pasted-1788989507905-0.png
+!uploads/pasted-1788989515614-0.png
+!uploads/pasted-1788989523924-0.png
