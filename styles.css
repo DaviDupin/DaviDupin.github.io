@@ -470,9 +470,12 @@ img { max-width: 100%; }
   color: var(--ink);
 }
 
+/* Barra em vez de losango: o ♦ (U+2666) tem apresentacao de emoji no
+   Unicode e iOS e Android o substituem pelo glifo colorido. */
 .skills-list .skills-sep {
-  font-size: 11px;
-  color: var(--soft);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--faint);
 }
 
 /* --------------------------------------------------------------- contato */
