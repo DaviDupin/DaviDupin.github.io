@@ -71,8 +71,7 @@ img { max-width: 100%; }
   z-index: 40;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 24px;
+  gap: 16px;
   padding: 18px var(--pad-home);
   background: rgba(239, 242, 245, 0.82);
   backdrop-filter: blur(14px);
@@ -111,6 +110,7 @@ img { max-width: 100%; }
 .nav {
   display: flex;
   align-items: center;
+  margin-left: auto;          /* empurra nav e seletor para a direita */
   gap: clamp(14px, 2.5vw, 34px);
   font-size: 14px;
   font-weight: 500;
@@ -126,6 +126,59 @@ img { max-width: 100%; }
 }
 
 .nav-ext .ms { font-size: 18px; }
+
+/* ------------------------------------------------- seletor de idioma */
+
+.lang {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 0 0 auto;
+  padding: 3px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+/* A bandeira inativa fica dessaturada e apagada; a ativa ganha cor cheia
+   sobre uma pastilha branca. A cor sozinha nao carregaria o estado, entao
+   opacidade e fundo reforcam a leitura. */
+.lang-btn {
+  display: flex;
+  align-items: center;
+  padding: 4px 6px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  line-height: 0;
+  cursor: pointer;
+  opacity: 0.5;
+  filter: saturate(0.3);
+  transition: opacity 160ms ease, filter 160ms ease, background 160ms ease;
+}
+
+.lang-btn:hover { opacity: 0.85; filter: saturate(0.85); }
+
+.lang-btn.is-active {
+  opacity: 1;
+  filter: none;
+  background: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(34, 38, 42, 0.18);
+  cursor: default;
+}
+
+.lang-btn:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+/* A arte é quadrada, com a bandeira ocupando a faixa central e sombra
+   própria. Forçar proporção de retângulo espremeria o desenho. */
+.flag {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
 
 /* ------------------------------------------------------------------ hero */
 
@@ -940,6 +993,30 @@ img { max-width: 100%; }
   .case-standfirst { font-size: 18px; }
 
   .nav { gap: 14px; font-size: 13px; }
+}
+
+/* Cabecalho em duas linhas: logo e seletor em cima, navegacao embaixo.
+   Numa linha so nao cabe nem em portugues depois que o seletor entrou, e em
+   ingles "Case Studies" aperta mais sete caracteres. A altura do cabecalho
+   cresce, mas o app.js mede offsetHeight a cada rolagem, entao as ancoras
+   continuam parando no lugar certo sozinhas. */
+@media (max-width: 600px) {
+  .site-header {
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .lang { margin-left: auto; }
+
+  .nav {
+    order: 3;
+    flex-basis: 100%;
+    justify-content: space-between;
+    margin-left: 0;
+    gap: 12px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

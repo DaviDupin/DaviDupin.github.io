@@ -4,6 +4,12 @@
 # Arquivo de design (Claude Design canvas) — não faz parte do site publicado
 *.dc.html
 
+# Documentos de trabalho da tradução. Ficam fora do repositório porque o
+# Pages os serviria como texto cru em /conteudo.md e /content.md, duplicando
+# o conteúdo das páginas nos buscadores. A tradução em si vive em build/en.json.
+conteudo.md
+content.md
+
 # Sistema
 Thumbs.db
 desktop.ini

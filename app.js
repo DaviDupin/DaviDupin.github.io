@@ -94,8 +94,25 @@
     }
   }
 
-  window.addEventListener('hashchange', route);
+  /* O seletor de idioma é um link entre duas páginas estáticas. Levar a
+     âncora junto faz quem está lendo um case cair no mesmo case do outro
+     idioma, em vez da home. Atualizamos o href a cada rota (e não no clique)
+     para que copiar o link ou abrir em nova aba também funcione. */
+  function sincronizarIdioma() {
+    var alvo = location.hash.replace(/^#/, '');
+    var sufixo = CASE_VIEWS.indexOf(alvo) > -1 ? '#' + alvo : '';
+    Array.prototype.forEach.call(
+      document.querySelectorAll('.lang-btn[data-base]'), function (link) {
+        link.setAttribute('href', link.dataset.base + sufixo);
+      });
+  }
+
+  window.addEventListener('hashchange', function () {
+    route();
+    sincronizarIdioma();
+  });
   route();
+  sincronizarIdioma();
 
   /* O card inteiro é clicável; os links internos continuam funcionando sozinhos. */
   Array.prototype.forEach.call(document.querySelectorAll('.case[data-href]'), function (card) {
