@@ -8,6 +8,7 @@
   --muted: #6E7479;
   --faint: #8B9093;
   --deep: #2A4C6D;
+  --deep-ink: #172C42; /* base dos veus; o azul sob o texto da hero */
   --blue: #2F6FA8;
   --soft: #5B94BF;
   --rule: rgba(34, 38, 42, 0.14);
@@ -395,17 +396,22 @@ img { max-width: 100%; }
   color: var(--body);
 }
 
-.about-lead {
+/* Tipografia idêntica à de .case h3. Como este é um <p>, e não um heading,
+   a família precisa ser declarada aqui — os demais valores acompanham.
+
+   O seletor precisa ser tão específico quanto `.about-text > p` acima, que
+   também alcança este parágrafo: fosse só `.about-lead`, a regra genérica
+   venceria e imporia tamanho, cor e entrelinha de corpo de texto. */
+.about-text > .about-lead {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(26px, 3vw, 36px);
-  line-height: 1.18;
-  letter-spacing: -0.025em;
-  font-weight: 600;
+  font-size: clamp(25px, 2.7vw, 38px);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  font-weight: 700;
   color: var(--ink);
 }
 
-.about-text > .about-lead { margin: 0; }
 .about-lead + p { margin-top: 26px; }
 
 .stats {
@@ -810,9 +816,93 @@ img { max-width: 100%; }
 /* ------------------------------------------------------------ responsive */
 
 @media (max-width: 1000px) {
+  /* Abaixo desta largura nao ha espaco para texto e retrato lado a lado: o
+     painel passa a empilhar uma faixa com a foto no topo e o conteudo abaixo,
+     em vez de sobrepor os dois. */
+  .hero-panel {
+    /* Alta o bastante para a escala ser sempre pela altura: sem corte
+       vertical em nenhuma largura, o queixo cai em 61% constantes e as
+       paradas do degrade abaixo valem para todas as telas. */
+    --hero-media: clamp(380px, 96vw, 560px);
+
+    /* O texto sobe para dentro da faixa, cobrindo o final dela. Acima deste
+       ponto o queixo (61%) e o recorte inteiro (some em 77%) ja ficaram
+       para tras, entao nada de texto encosta no rosto. */
+    padding-top: calc(var(--hero-media) * 0.78 + 40px);
+
+    /* Mesmo azul que os veus compoem sob o texto no desktop. */
+    background: var(--deep-ink);
+  }
+
+  /* As camadas ficam confinadas a faixa. O PNG e o recorte do mesmo quadro do
+     JPG, entao os dois precisam do mesmo object-position para continuarem
+     alinhados; a mascara funde a base da faixa com o fundo do painel. */
+  .hero-layer,
+  .hero-veil {
+    bottom: auto;
+    height: var(--hero-media);
+  }
+
+  .hero-layer { object-position: 50% 10%; }
+
+  /* O fundo se dissolve devagar ate a base da faixa: e dele que vem a
+     transicao sutil para o azul. */
+  .hero-bg {
+    --hero-fade: linear-gradient(to bottom,
+      #000 0%,
+      #000 64%,
+      rgba(0, 0, 0, 0.90) 71%,
+      rgba(0, 0, 0, 0.74) 78%,
+      rgba(0, 0, 0, 0.52) 84%,
+      rgba(0, 0, 0, 0.30) 90%,
+      rgba(0, 0, 0, 0.13) 95%,
+      rgba(0, 0, 0, 0.03) 98%,
+      transparent 100%);
+
+    -webkit-mask-image: var(--hero-fade);
+            mask-image: var(--hero-fade);
+  }
+
+  /* O recorte sai de cena bem antes, entre 63% e 77%: comeca abaixo do
+     queixo, preservando o rosto, e termina antes de o texto entrar, para
+     que nenhuma linha caia sobre a camisa clara. */
+  .hero-fg {
+    --hero-fade: linear-gradient(to bottom,
+      #000 0%,
+      #000 63%,
+      rgba(0, 0, 0, 0.82) 67%,
+      rgba(0, 0, 0, 0.55) 70.5%,
+      rgba(0, 0, 0, 0.28) 73.5%,
+      rgba(0, 0, 0, 0.08) 75.5%,
+      transparent 77%);
+
+    -webkit-mask-image: var(--hero-fade);
+            mask-image: var(--hero-fade);
+  }
+
+  /* Os veus diagonal e esquerdo existem para dar contraste ao texto por cima
+     da foto; com o texto fora dela, so o de baixo segue util. */
+  .hero-veil--diagonal,
+  .hero-veil--left { display: none; }
+
+  /* O filtro azul sobe um pouco antes de a mascara comecar a apagar a
+     imagem, entao o tom chega primeiro e ela some ja dentro dele. */
+  .hero-veil--bottom {
+    background: linear-gradient(to top,
+      rgba(23, 44, 66, 1) 0%,
+      rgba(23, 44, 66, 0.88) 14%,
+      rgba(23, 44, 66, 0.74) 26%,
+      rgba(23, 44, 66, 0.40) 36%,
+      rgba(23, 44, 66, 0.12) 44%,
+      rgba(23, 44, 66, 0) 52%);
+  }
+
+  /* Sem o sangramento das margens negativas: o respiro lateral agora vem do
+     proprio padding do painel. */
   .hero-content {
     max-width: 100%;
-    padding-right: clamp(52px, 6.4vw, 104px);
+    margin: 0;
+    padding: 0;
   }
 
   .case,
@@ -833,12 +923,7 @@ img { max-width: 100%; }
 @media (max-width: 720px) {
   .hero { min-height: 0; }
 
-  .hero-content {
-    margin: calc(-1 * clamp(32px, 4.4vw, 68px)) calc(-1 * clamp(28px, 4vw, 64px));
-    padding: 40px 28px;
-  }
-
-  .hero-actions { margin-top: 40px; }
+  .hero-actions { margin-top: 32px; }
 
   .cards--2 { grid-template-columns: minmax(0, 1fr); }
 
